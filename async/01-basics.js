@@ -91,6 +91,8 @@ thing1(() => {
 /*
  */
 
+// weather
+/*
 function getWeather() {
     return new Promise(function (resolve, reject) {
         setTimeout(() => {
@@ -127,4 +129,72 @@ function onError(error) {
 
 getWeather()
     .then(getWeatherIcon)
-    .then(onSuccess, onError)
+    .then(onSuccess)
+    .catch(onError)
+ */
+
+function fun1() {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            reject('404')
+        }, 100)
+    })
+}
+
+// function fun2() {
+//     console.log('Function 2') // wont be called until fun1 returns reject
+//     return new Promise((resolve, reject) => {
+//         setTimeout(() => {
+//             resolve('😎')
+//         }, 100)
+//     })
+// }
+
+// function onSuccess(data) {
+//     console.log(`Success: ${data}`)
+// }
+//
+// function onError(errorCode) {
+//     console.log(`Error: ${errorCode}`)
+// }
+//
+// function onFinally() {
+//     console.log(`FINALLY WE BE DONE YO`)
+// }
+//
+// fun1()
+// another way to catch error to pass second variable to .then(onFullField, onRejected)
+// since fun1 rejects, fun2 calls onError function with data value: 404
+// .then(fun2, onError) // then onSuccess will be called but fun2 could return any value, so we will get
+// .then(onSuccess) // success: undefined
+// .catch(onError) // as fun1 promise returns reject chain does not advance and we catch reject
+
+// another method is finally
+// fun1()
+//     .then(fun2)
+//     .then(onSuccess)
+//     .catch(onError)
+//     .finally(onFinally) // still will be called
+
+
+// fetch
+function fetchData() {
+    return new Promise(function (resolve, reject) {
+        fetch('https://api.weather.gov/gridpoints/OKX/35,35/forecast')
+            .then(response => response.json())
+            .then(data => resolve(data.properties.periods[1].shortForecast))
+    })
+}
+
+function displayData(weather) {
+    console.log(weather)
+}
+
+function onError(err){
+    console.log(`Error ${err}`)
+}
+
+
+fetchData()
+    .then(displayData) // Mostly Cloudy then Light Rain Likely
+    .catch(onError)
