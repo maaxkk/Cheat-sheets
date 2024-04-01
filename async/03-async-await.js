@@ -186,6 +186,7 @@ getCats(); // that's all
 async function f() {
     await Promise.reject(new Error('Oops'))
 }
+
 // same as:
 async function func() {
     throw new Error('Oops')
@@ -201,13 +202,14 @@ async function fTry() {
     }
 }
 
-fTry();
+// fTry();
 
 async function fCatch() {
     let response = await fetch('https://no-such-url')
 }
+
 // fCatch() will return promise in rejected state
-fCatch().catch(console.log) // without catch it will be uncaught promise error
+// fCatch().catch(console.log) // without catch it will be uncaught promise error
 
 // if you need to wait several promises you can wrap them to Promise.all and then await
 
@@ -216,3 +218,92 @@ fCatch().catch(console.log) // without catch it will be uncaught promise error
 //     fetch(url2),
 // ]);
 
+//
+
+
+// ex 1
+
+// rewrite with async
+// function loadJson(url) {
+//     return fetch(url)
+//         .then(response => {
+//             if (response.status == 200) {
+//                 return response.json();
+//             } else {
+//                 throw new Error(response.status);
+//             }
+//         })
+// }
+//
+// loadJson('no-such-user.json') // (3)
+//     .catch(alert); // Error: 404
+
+// async function loadJson(url) {
+//     const response = await fetch(url, {mode: 'cors'});
+//     if (response.status === 200){
+//         return await response.json()
+//     }
+//     throw new Error(response.status)
+// }
+//
+// loadJson(`https://api.giphy.com/v1/gifs/translate?api_key=key&s=cat`)
+//     .catch(console.log)
+
+
+// ex3
+async function wait() {
+    await new Promise(resolve => setTimeout(resolve, 1000))
+
+    return 10;
+}
+
+// function getAsync() {
+//     (async () => {
+//         console.log(await wait())
+//     })()
+// }
+
+function getAsync() {
+    wait().then(result => console.log(result))
+}
+
+
+getAsync()
+
+// ex 3
+class HttpError extends Error {
+    constructor(response) {
+        super(`${response.status} for ${response.url}`);
+        this.name = 'HttpError';
+        this.response = response;
+    }
+}
+
+async function loadJson(url) {
+    const response = await fetch(url)
+    if (response.status === 200) {
+        return response.json();
+    }
+    throw new HttpError(response);
+}
+
+// Запрашивать логин, пока github не вернёт существующего пользователя.
+async function demoGithubUser() {
+    while(true){
+        try{
+            let name = prompt("Введите логин?", "iliakan");
+            let response = await loadJson(`https://api.github.com/users/${name}`)
+            alert(`Full name: ${response.name}`)
+            return false
+        } catch(err) {
+            if (err instanceof HttpError && err.response.status === 404) {
+                alert("Такого пользователя не существует, пожалуйста, повторите ввод.");
+            } else {
+                // unknown error
+                throw err;
+            }
+        }
+    }
+}
+
+demoGithubUser();
