@@ -219,3 +219,45 @@ console.log('After function')
 // in function
 // after function
 // test
+
+
+function doubleAfter2Seconds(x){
+    return new Promise(resolve => {
+        setTimeout(() => {
+            resolve (x * 2);
+        }, 1000)
+    })
+}
+
+doubleAfter2Seconds(10).then((r) => {
+    console.log(r); // 20, how to add and double a lot of numbers?
+})
+
+// promise chain
+
+// function addPromise(x){
+//     return new Promise(resolve => {
+//         doubleAfter2Seconds(10)
+//             .then((a) => { // 10 * 2 = 20 = a
+//             doubleAfter2Seconds(20)
+//                 .then((b) => { // 20 * 2 = 40 = b
+//                 doubleAfter2Seconds(30)
+//                     .then((c) => { // 30 * 2 = 60 = c
+//                     resolve(x+a+b+c);
+//                 })
+//             })
+//         })
+//     });
+// }
+//
+// addPromise(10).then(res=> console.log(res)) // 130
+
+// the same but with async / await
+
+async function addAsync(x) {
+    const a = await doubleAfter2Seconds(10); // await pauses function here, until solving this promise
+    const b = await doubleAfter2Seconds(20); // await pauses function here, until solving this promise
+    const c = await doubleAfter2Seconds(30); // await pauses function here, until solving this promise
+    return x + a + b + c // much readable function
+}
+

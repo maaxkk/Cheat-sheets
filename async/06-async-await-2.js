@@ -270,41 +270,45 @@ function createImage(imgPath){
 //
 // // part 1 - rewrite function from coding challenge 2 with async / await
 // (async function() {
-const loadNPause = async function() {
-    try {
-        const creatingImage = await createImage('https://github.com/jonasschmedtmann/complete-javascript-course/blob/master/16-Asynchronous/final/img/img-1.jpg?raw=true')
-        console.log('Image 1 loaded')
-        await wait(2)
-        creatingImage.style.display = 'none'
-        const nextImage = await createImage('https://github.com/jonasschmedtmann/complete-javascript-course/blob/master/16-Asynchronous/final/img/img-2.jpg?raw=true')
-        console.log('Image 2 loaded')
-        await wait(2)
-        nextImage.style.display = 'none'
-    } catch (err) {
-        console.error(err)
-    }
-}
-loadNPause()
+// const loadNPause = async function() {
+//     try {
+//         const creatingImage = await createImage('https://github.com/jonasschmedtmann/complete-javascript-course/blob/master/16-Asynchronous/final/img/img-1.jpg?raw=true')
+//         console.log('Image 1 loaded')
+//         await wait(2)
+//         creatingImage.style.display = 'none'
+//         const nextImage = await createImage('https://github.com/jonasschmedtmann/complete-javascript-course/blob/master/16-Asynchronous/final/img/img-2.jpg?raw=true')
+//         console.log('Image 2 loaded')
+//         await wait(2)
+//         nextImage.style.display = 'none'
+//     } catch (err) {
+//         console.error(err)
+//     }
+// }
+// loadNPause()
 // })()
 
 // part 2
 async function loadAll(imgArr){
     // const output = []
-    // imgArr.map(async function(imgSource) {
-    //     const currImg = await createImage(imgSource)
-    //     output.push(currImg)
-    // })
-    // return(output)
-    Promise.all([
-        createImage(imgArr[0]),
-        createImage(imgArr[1]),
-        createImage(imgArr[2]),
-    ])
+    try {
+        // const imgs = imgArr.map(async function (imgSource) {
+        //     const currImg = await createImage(imgSource)
+        //     // output.push(currImg)
+        // })
+        // return(output)
+        Promise.all([
+            createImage(imgArr[0]),
+            createImage(imgArr[1]),
+            createImage(imgArr[2]),
+        ])
+    } catch (err) {
+        console.log(err)
+    }
 }
 
 const arrOfImg = ['https://github.com/jonasschmedtmann/complete-javascript-course/blob/master/16-Asynchronous/final/img/img-1.jpg?raw=true',
     'https://github.com/jonasschmedtmann/complete-javascript-course/blob/master/16-Asynchronous/final/img/img-2.jpg?raw=true',
 'https://github.com/jonasschmedtmann/complete-javascript-course/blob/master/16-Asynchronous/final/img/img-3.jpg?raw=true']
 
-// loadAll(arrOfImg)
+loadAll(arrOfImg)
     //.then(arr => console.log(arr))
