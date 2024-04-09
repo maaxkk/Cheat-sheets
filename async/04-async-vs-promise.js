@@ -117,7 +117,7 @@ const renderCountry = function (data, className = '') {
 };
 
 // const getCountryData = function (country) {
-//     fetch(`https://restcountries.com/v3.1/name/ukraine`)
+//     fetch(`https://restcountries.com/v3.1/name/portugal`)
 //         .then(function(response) {
 //            return response.json() // handle fulfilled promise
 //         })
@@ -242,8 +242,13 @@ function whereAmI(lat, lon) {
         .then(data => {
             country = data.country
         })
-        .catch(err => console.log(`Something went wrong ${err}`))
+        // .catch(err => console.log(`Something went wrong ${err}`))
+        .catch(err => {
+            countriesContainer.insertAdjacentText('beforeend', `Something went wrong ${err.message}`)
+        })
 }
+
+
 
 // rewrite function from memory
 function getCountryData(country){
@@ -279,4 +284,5 @@ function getCountryData(country){
 btn.addEventListener('click', function () {
         whereAmI(19.037, 72.873).then(() => getCountryData(country))
 })
+
 

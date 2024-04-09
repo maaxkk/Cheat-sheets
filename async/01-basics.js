@@ -187,7 +187,7 @@ function fetchData() {
 }
 
 function displayData(weather) {
-    console.log(weather)
+    // console.log(weather)
 }
 
 function onError(err){
@@ -198,3 +198,24 @@ function onError(err){
 fetchData()
     .then(displayData) // Mostly Cloudy then Light Rain Likely
     .catch(onError)
+
+// async
+
+const one = () => Promise.resolve('Test');
+
+async function f() {
+    console.log('In function');
+    const data = await one()
+    console.log(data)
+}
+
+console.log('Before function')
+
+f()
+
+console.log('After function')
+
+// before function
+// in function
+// after function
+// test
