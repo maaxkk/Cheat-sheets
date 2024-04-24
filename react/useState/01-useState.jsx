@@ -167,9 +167,16 @@ function TestApp() {
                 setTestColor('red')
                 console.log(testColor); // first click - render = blue, but then it's red, but message will still render blue
                 // because we initialize color in Message only once on first render, and it does not have setState function
-                // to re-render it, that's why it always will be blue. React re-render component when component has changed props or state (useState)
-                // in our case yes we changed props, but our bg-color depends on state, and state stayed the same, in memory of react(his shelf)
-                // simple fix is to use variable for props of Component or just pass props to return statement in Message
+                // to re-render it, that's why it always will be blue.
+
+                // React re-render component when component has changed props or state (useState)
+                // but only if props was state of parent component, if parent's state changes it triggers re-render of
+                // itself and its children if they exist
+
+                // in our case yes we changed props(or state of parent)
+                // but our bg-color depends on state, and state stayed the same, in memory of react(his shelf)
+                // simple fix is to use variable for props instead of useState in child
+                // or just pass props to inside return statement in child component
             }}>
                 Red</button>
             <Message messageColor={testColor} />
