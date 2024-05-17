@@ -8,6 +8,7 @@ function Profile() {
     const [isLoading, setIsLoading] = useState(true);
     const imgRef = useRef();
     const {username} = useParams();
+    const [queryParams, setQueryParams] = useSearchParams({name: '', lastname: ''});
 
     useEffect(() => {
         if (isLoading) {
@@ -19,6 +20,10 @@ function Profile() {
 
     function copyToClipboard() {
         navigator.clipboard.writeText(`localhost:5173/profile/${username}`)
+        setQueryParams(prev => {
+            prev.set('name', 'testtesttest')
+            return prev;
+        })
     }
 
     async function fetchCat() {
@@ -53,6 +58,7 @@ function Profile() {
                 <p>Email: {personData.email}</p>
                 <p>Hobby: {personData.hobby}</p>
                 <button onClick={copyToClipboard}>Share profile</button>
+                <p>Current query params is: {queryParams.get('name')} {queryParams.get('lastname')}</p>
             </div>
         </div>
     );

@@ -35,7 +35,7 @@ function Form() {
 
     function handleClick() {
         let username = `${personData.name}${personData.lastname}`.toLowerCase()
-        navigate(`/profile/${username}`)
+        navigate(`/profile/${username}?name=${personData.name}&lastname=${personData.lastname}`)
     }
 
     return (
